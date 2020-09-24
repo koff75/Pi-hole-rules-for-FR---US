@@ -3,7 +3,26 @@
 
 
 # The goal is to allow Pi-hole to talk to dnscrypt-proxy which in turn would talk to NextDNS (DNS over TLS)
+## Set up dnscrypt-proxy with Pi-hole
+### dnscrypt-proxy
+1. Let's go the the opt directory : `cd /opt/ `
+2. Download le latest version of dnscrypt-proxy (arm 64 or 32 bit) via : https://github.com/jedisct1/dnscrypt-proxy/releases/latest
+` $@raspberrypi:/opt# wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.44/dnscrypt-proxy-linux_arm-2.0.44.tar.gz `
+3. Untar the archive :
+ sudo tar -xvzf ./dnscrypt-proxy-linux_arm-2.0.44.tar.gz 
+ 4. Remove the tar :
+ sudo rm dns...
+ 5. Go the dns dir : cd linux-arm
+ 6. Create the configuration file like following the example found in the directory :
+ sudo cp ./example-dnscrypt-proxy.toml ./dnscrypt-proxy.toml
+ 7. Edit the conf file with nano: 
+ server_names = ['cloudflare']
+ listen_addresses = ['127.0.0.1:54']
+ You can find all DNS providers from the link : https://dnscrypt.info/public-servers
+ 8. Install the dnscrypt-proxy : sudo ./dnscrypt-proxy -service install
+ 9. Start the service : sudo ./dnscrypt-proxy -service start
 
+## Set up dnscrypt-proxy -> DNS over TLS via NextDNS
 1. Install stubby via apt : `sudo apt-get install stubby`
 2. Edit the config file : `sudo nano /etc/stubby/stubby.ytml`
 3. Under the listen_adresses add te following :
